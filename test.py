@@ -12,7 +12,6 @@ def main():
     master_addr = os.environ["MASTER_ADDR"]
     master_port = os.environ["MASTER_PORT"]
     
-    import pdb; pdb.set_trace()
     # 분산 환경 초기화
     dist.init_process_group(
         backend='nccl', 
