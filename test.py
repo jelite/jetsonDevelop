@@ -14,7 +14,7 @@ def main():
     
     # 분산 환경 초기화
     dist.init_process_group(
-        backend='nccl', 
+        backend=' gloo', 
         init_method=f'env://',  # 기본적으로 env://면 MASTER_ADDR, MASTER_PORT 사용
         world_size=world_size, 
         rank=rank
