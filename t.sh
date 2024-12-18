@@ -1,0 +1,2 @@
+h=$(hostname)
+echo ${h}
