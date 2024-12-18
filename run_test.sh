@@ -10,5 +10,5 @@ elif [ "$(hostname)" = "soda3" ]; then
     export RANK=3
 fi
 echo $RANK
-# export WORLD_SIZE=4
-# python3 test.py
+export WORLD_SIZE=4
+python3 test.py
