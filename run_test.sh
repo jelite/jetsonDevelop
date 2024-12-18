@@ -1,6 +1,6 @@
 export MASTER_ADDR="192.168.100.131"
 export MASTER_PORT=29500
-if [ "$(hostname)" = "soda_master" ]; then
+if [ "$(hostname)" = "master" ]; then
     export RANK=0
 elif [ "$(hostname)" = "soda1" ]; then
     export RANK=1
