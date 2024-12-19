@@ -6,7 +6,7 @@ from torch.nn.parallel import DistributedDataParallel as DDP
 def setup(rank, world_size, master_addr, master_port):
     """Initialize distributed process group"""
     dist.init_process_group(
-        backend='gloo',  # NVIDIA GPU 간 최적화된 통신
+        backend='gloo',
         init_method=f'tcp://{master_addr}:{master_port}',
         rank=rank,       # 전체 rank
         world_size=world_size  # 전체 프로세스 수
@@ -73,6 +73,18 @@ if __name__ == "__main__":
     import argparse
     from torch.multiprocessing import spawn
 
+    # Get computer's hostname
+    hostname = os.uname().nodename
+    print(f"Running on host: {hostname}")
+    if(hostname == 'master'):
+        rank = 0
+    elif(hostname == 'soda1'):
+        rank = 1
+    elif(hostname == 'soda2'):
+        rank = 2
+    elif(hostname == 'soda3'):
+        rank = 3
+
     # --- 설정 ---
     parser = argparse.ArgumentParser()
     parser.add_argument('--nodes', type=int, default=2, help='Number of nodes')
@@ -84,9 +96,10 @@ if __name__ == "__main__":
     # 전체 프로세스 수 계산
     world_size = args.nodes * args.gpus
 
+    main(rank, world_size, args.master_addr, args.master_port)
     # 다중 프로세스 실행
-    spawn(
-        main,
-        args=(world_size, args.master_addr, args.master_port),
-        nprocs=args.gpus
-    )
+    # spawn(
+    #     main,
+    #     args=(rank, world_size, args.master_addr, args.master_port),
+    #     nprocs=args.gpus
+    # )
