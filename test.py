@@ -6,7 +6,7 @@ from torch.nn.parallel import DistributedDataParallel as DDP
 def setup(rank, world_size, master_addr, master_port):
     """Initialize distributed process group"""
     dist.init_process_group(
-        backend='nccl',  # NVIDIA GPU 간 최적화된 통신
+        backend='gloo',  # NVIDIA GPU 간 최적화된 통신
         init_method=f'tcp://{master_addr}:{master_port}',
         rank=rank,       # 전체 rank
         world_size=world_size  # 전체 프로세스 수
