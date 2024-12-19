@@ -24,10 +24,13 @@ def run_inference(rank, world_size, model, dataloader):
     model.eval()
     with torch.no_grad():
         results = []
-        for data in dataloader:
+        total_iters = len(dataloader)
+        for i, data in enumerate(dataloader):
             data = data.to(rank)  # 데이터도 GPU로 전송
             outputs = model(data)
             results.append(outputs)
+            if rank == 0:  # 마스터 노드에서만 출력
+                print(f"Remaining iterations: {total_iters - (i+1)}/{total_iters}")
 
         # 결과를 모든 프로세스로부터 수집
         gathered_results = [torch.zeros_like(results[0]) for _ in range(world_size)]
@@ -42,18 +45,22 @@ def cleanup():
 # --- 메인 ---
 def main(rank, world_size, master_addr, master_port):
     """Main function for distributed inference"""
+    print("Setup Start")
     setup(rank, world_size, master_addr, master_port)
 
     # 간단한 모델 정의 (예: ResNet50)
-    model = torch.hub.load('pytorch/vision:v1.11.0', 'resnet50', pretrained=False)
+    print("Model Load Start")
+    model = torch.hub.load('pytorch/vision:v1.11.0', 'resnet18', pretrained=False)
 
     # 가상의 데이터셋 (배치 크기: 32)
+    print("Data Load Start")
     dataloader = torch.utils.data.DataLoader(
         torch.randn(40, 3, 224, 224),  # 100개의 샘플, 이미지 크기 (3, 224, 224)
         batch_size=4
     )
 
     # 추론 실행
+    print("Inference Start")
     results = run_inference(rank, world_size, model, dataloader)
 
     # 결과 출력 (각 프로세스에서 실행된 데이터 수 확인)
