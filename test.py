@@ -96,6 +96,7 @@ if __name__ == "__main__":
     # 전체 프로세스 수 계산
     world_size = args.nodes * args.gpus
 
+    print(f"Rank: {rank}, World Size: {world_size}, Master Address: {args.master_addr}, Master Port: {args.master_port}")
     main(rank, world_size, args.master_addr, args.master_port)
     # 다중 프로세스 실행
     # spawn(
