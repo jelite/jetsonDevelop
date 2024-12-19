@@ -49,8 +49,8 @@ def main(rank, world_size, master_addr, master_port):
 
     # 가상의 데이터셋 (배치 크기: 32)
     dataloader = torch.utils.data.DataLoader(
-        torch.randn(100, 3, 224, 224),  # 100개의 샘플, 이미지 크기 (3, 224, 224)
-        batch_size=32
+        torch.randn(40, 3, 224, 224),  # 100개의 샘플, 이미지 크기 (3, 224, 224)
+        batch_size=4
     )
 
     # 추론 실행
