@@ -4,9 +4,9 @@ from torch.nn.parallel import DistributedDataParallel as DDP
 import os
 
 def setup(rank, world_size, master_addr, master_port):
-    """Initialize distributed process group"""
     os.environ['MASTER_ADDR'] = master_addr
-    os.environ['MASTER_PORT'] = master_port
+    os.environ['MASTER_PORT'] = str(master_port)
+    print(f"MASTER_ADDR: {os.environ['MASTER_ADDR']}, MASTER_PORT: {os.environ['MASTER_PORT']}")
     dist.init_process_group(
         backend='gloo',
         init_method=f'tcp://{master_addr}:{master_port}',
@@ -14,6 +14,7 @@ def setup(rank, world_size, master_addr, master_port):
         world_size=world_size
     )
     torch.cuda.set_device(rank % torch.cuda.device_count())
+
 
 # --- 추론 함수 ---
 def run_inference(rank, world_size, model, dataloader):
@@ -98,7 +99,7 @@ if __name__ == "__main__":
     # 전체 프로세스 수 계산
     world_size = args.nodes * args.gpus
 
-    print(f"Rank: {rank}, World Size: {world_size}, Master Address: {args.master_addr}, Master Port: {args.master_port}")
+    # print(f"Rank: {rank}, World Size: {world_size}, Master Address: {args.master_addr}, Master Port: {args.master_port}")
     main(rank, world_size, args.master_addr, args.master_port)
     # 다중 프로세스 실행
     # spawn(
