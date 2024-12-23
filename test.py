@@ -1,15 +1,17 @@
 import torch
 import torch.distributed as dist
 from torch.nn.parallel import DistributedDataParallel as DDP
+import os
 
-# --- 초기화 ---
 def setup(rank, world_size, master_addr, master_port):
     """Initialize distributed process group"""
+    os.environ['MASTER_ADDR'] = master_addr
+    os.environ['MASTER_PORT'] = master_port
     dist.init_process_group(
         backend='gloo',
         init_method=f'tcp://{master_addr}:{master_port}',
-        rank=rank,       # 전체 rank
-        world_size=world_size  # 전체 프로세스 수
+        rank=rank,
+        world_size=world_size
     )
     torch.cuda.set_device(rank % torch.cuda.device_count())
 
