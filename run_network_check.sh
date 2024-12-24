@@ -13,4 +13,4 @@ elif [ "$(hostname)" = "soda2" ]; then
 elif [ "$(hostname)" = "soda3" ]; then
     export RANK=3
 fi
-python3 network_check.py --local_rank=$LOCAL_RANK --backend=gloo
+python3 network_check.py
