@@ -27,9 +27,9 @@ def init_processes():
     print(f"Init process from {WORLD_RANK} to {WORLD_SIZE}")
     print(f"MASTER_ADDR: {os.environ['MASTER_ADDR']}")
     print(f"MASTER_PORT: {os.environ['MASTER_PORT']}")
-    dist.init_process_group(
-        backend='gloo',
-        init_method=f'tcp://{os.environ["MASTER_ADDR"]}:{os.environ["MASTER_PORT"]}',
+    dist.rpc.init_rpc(
+        # backend='gloo',
+        # init_method=f'tcp://{os.environ["MASTER_ADDR"]}:{os.environ["MASTER_PORT"]}',
         rank=WORLD_RANK,
         world_size=WORLD_SIZE)
     run(backend)
