@@ -22,7 +22,7 @@ def run(backend):
         print('worker_{} has received data from rank {}\n'.format(WORLD_RANK, 0))
 
 def init_processes():
-    print("Init process from {WORLD_RANK} to {WORLD_SIZE}")
+    print(f"Init process from {WORLD_RANK} to {WORLD_SIZE}")
     dist.init_process_group(
         backend='gloo',
         init_method=f'tcp://{os.environ["MASTER_ADDR"]}:{os.environ["MASTER_PORT"]}',
