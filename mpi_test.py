@@ -1,5 +1,7 @@
 import torch.distributed as dist
 import torch
+import os
+
 
 def main():
     # Initialize the distributed process group
@@ -10,7 +12,9 @@ def main():
     # Get the rank and world size
     rank = dist.get_rank()
     world_size = dist.get_world_size()
-    
+    # Get hostname
+    hostname = os.uname()[1]
+    print(f"Running on host: {hostname}")
     print(f"Hello from rank {rank} out of {world_size} processes")
 
     # Example: All-reduce operation
