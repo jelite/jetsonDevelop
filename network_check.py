@@ -20,6 +20,7 @@ def run(backend):
             dist.send(tensor=tensor, dst=rank_recv)
             print('worker_{} sent data to Rank {}\n'.format(0, rank_recv))
     else:
+        print(f"Hostname: {os.uname()[1]}")
         dist.recv(tensor=tensor, src=0)
         print('worker_{} has received data from rank {}\n'.format(WORLD_RANK, 0))
 
