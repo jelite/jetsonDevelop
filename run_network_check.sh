@@ -2,6 +2,8 @@ export MASTER_ADDR="192.168.100.131"
 export MASTER_PORT=29500
 export WORLD_SIZE=2
 export LOCAL_RANK=0
+export GLOO_SOCKET_IFNAME=nonexist
+
 if [ "$(hostname)" = "master" ]; then
     export RANK=0
 elif [ "$(hostname)" = "soda1" ]; then
