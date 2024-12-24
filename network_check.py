@@ -4,6 +4,8 @@ import argparse
 import torch
 import torch.distributed as dist
 
+os.environ[“TP_SOCKET_IFNAME”]=“tun0”
+
 # Environment variables set by torch.distributed.launch
 LOCAL_RANK = int(os.environ['LOCAL_RANK'])
 WORLD_SIZE = int(os.environ['WORLD_SIZE'])
