@@ -10,7 +10,7 @@ def setup(rank, world_size):
     print("Master node initialized at tcp://192.168.100.131:29500")
     
 def main():
-    setup(rank=0, world_size=2)  # Master node is rank 0
+    setup(rank=rank, world_size=world_size)  # Master node is rank 0
 
 if __name__ == "__main__":
     main()
