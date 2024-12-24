@@ -1,6 +1,7 @@
 import torch
 import torch.distributed as dist
 from torch.nn.parallel import DistributedDataParallel as DDP
+import torchvision.models as models
 import os
 import argparse
 
@@ -55,8 +56,8 @@ def main():
 
     # 간단한 모델 정의 (예: ResNet50)
     print("Model Load Start")
-    model = torch.hub.load('pytorch/vision:v1.11.0', 'resnet18', pretrained=False)
-
+    model = models.resnet18()
+    
     # 가상의 데이터셋 (배치 크기: 32)
     print("Data Load Start")
     dataloader = torch.utils.data.DataLoader(
